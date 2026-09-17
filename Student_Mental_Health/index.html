@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How's your head doing? — Student mental health check-in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="ambient" aria-hidden="true">
+  <div class="ambient__blob ambient__blob--a"></div>
+  <div class="ambient__blob ambient__blob--b"></div>
+</div>
+
+<div class="app">
+
+  <header class="masthead">
+    <div class="masthead__text">
+      <h1>How's your head doing?</h1>
+      <p class="masthead__sub">Answer a few questions about your day and your feeds. A model trained on student habits will estimate where you land.</p>
+    </div>
+    <div class="masthead__visual" aria-hidden="true">
+      <svg class="hero-visual" viewBox="0 0 200 200">
+        <circle class="hero-visual__ring hero-visual__ring--outer" cx="100" cy="100" r="70" />
+        <circle class="hero-visual__ring hero-visual__ring--mid" cx="100" cy="100" r="50" />
+        <circle class="hero-visual__core" cx="100" cy="100" r="24" />
+        <g class="hero-visual__orbit hero-visual__orbit--a">
+          <circle class="hero-visual__dot" cx="100" cy="18" r="5" />
+        </g>
+        <g class="hero-visual__orbit hero-visual__orbit--b">
+          <circle class="hero-visual__dot hero-visual__dot--amber" cx="178" cy="100" r="4" />
+        </g>
+        <g class="hero-visual__orbit hero-visual__orbit--c">
+          <circle class="hero-visual__dot" cx="100" cy="182" r="3.5" />
+        </g>
+      </svg>
+    </div>
+  </header>
+
+  <main class="layout">
+
+    <form id="check-form" class="intake" novalidate>
+
+      <section class="field-group">
+        <h2>About you</h2>
+        <div class="field-row">
+          <label class="field">
+            <span>Age</span>
+            <input type="number" id="age" min="10" max="100" value="20" required>
+          </label>
+          <label class="field">
+            <span>Gender</span>
+            <select id="gender" required>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="field-row">
+          <label class="field">
+            <span>Country</span>
+            <select id="country" required></select>
+          </label>
+          <label class="field" id="country-other-wrap" hidden>
+            <span>Which country?</span>
+            <input type="text" id="country-other" placeholder="Type your country">
+          </label>
+          <label class="field">
+            <span>Academic level</span>
+            <select id="academic-level" required></select>
+          </label>
+        </div>
+      </section>
+
+      <section class="field-group">
+        <h2>Your feeds</h2>
+        <div class="field-row">
+          <label class="field">
+            <span>Platform you use most</span>
+            <select id="platform" required></select>
+          </label>
+          <label class="field">
+            <span>Mainly there for</span>
+            <select id="purpose" required></select>
+          </label>
+        </div>
+      </section>
+
+      <section class="field-group">
+        <h2>Your day, in hours</h2>
+
+        <div class="slider-field">
+          <div class="slider-field__head">
+            <span>Time on social media</span>
+            <output for="usage" id="usage-out">3 h</output>
+          </div>
+          <input type="range" id="usage" min="0" max="16" step="0.5" value="3">
+        </div>
+
+        <div class="slider-field">
+          <div class="slider-field__head">
+            <span>Studying</span>
+            <output for="study" id="study-out">3 h</output>
+          </div>
+          <input type="range" id="study" min="0" max="14" step="0.5" value="3">
+        </div>
+
+        <div class="slider-field">
+          <div class="slider-field__head">
+            <span>Physical activity</span>
+            <output for="activity" id="activity-out">1 h</output>
+          </div>
+          <input type="range" id="activity" min="0" max="8" step="0.5" value="1">
+        </div>
+
+        <div class="slider-field">
+          <div class="slider-field__head">
+            <span>Sleep</span>
+            <output for="sleep" id="sleep-out">7 h</output>
+          </div>
+          <input type="range" id="sleep" min="0" max="12" step="0.5" value="7">
+        </div>
+
+        <label class="field field--inline">
+          <span>Phone unlocks per day</span>
+          <input type="number" id="unlocks" min="0" value="60" required>
+        </label>
+      </section>
+
+      <section class="field-group">
+        <h2>How you've been feeling</h2>
+        <div class="segmented" id="stress" role="radiogroup" aria-label="Stress level">
+          <span class="segmented__pill" id="stress-pill" aria-hidden="true"></span>
+          <button type="button" role="radio" data-value="Low">Low</button>
+          <button type="button" role="radio" data-value="Medium" aria-checked="true" class="is-active">Medium</button>
+          <button type="button" role="radio" data-value="High">High</button>
+          <button type="button" role="radio" data-value="Very High">Very high</button>
+        </div>
+      </section>
+
+      <details class="api-config">
+        <summary>Server settings</summary>
+        <label class="field">
+          <span>API base URL</span>
+          <input type="text" id="api-base" value="">
+        </label>
+      </details>
+
+      <button type="submit" class="submit" id="submit-btn">Get my score</button>
+    </form>
+
+    <aside class="result" id="result" aria-live="polite">
+      <div class="result__inner" id="result-empty">
+        <p>Fill in the form and your estimate will appear here.</p>
+      </div>
+
+      <div class="result__inner result__content" id="result-content" hidden>
+        <svg class="gauge" viewBox="0 0 240 150" role="img" aria-labelledby="gauge-title">
+          <title id="gauge-title">Mental health score gauge</title>
+          <path class="gauge__track" d="M30,130 A90,90 0 0 1 210,130" />
+          <path class="gauge__value" id="gauge-value" d="M30,130 A90,90 0 0 1 210,130" />
+          <text class="gauge__tick" x="30" y="146">0</text>
+          <text class="gauge__tick" x="120" y="30">5</text>
+          <text class="gauge__tick" x="210" y="146" text-anchor="end">10</text>
+        </svg>
+        <p class="result__score"><span id="score-value">0</span><span class="result__max">/10</span></p>
+        <p class="result__read" id="result-read"></p>
+      </div>
+
+      <div class="result__inner result__error" id="result-error" hidden>
+        <p id="result-error-text">Couldn't reach the model. Check the server settings and try again.</p>
+      </div>
+    </aside>
+
+  </main>
+
+  <footer class="disclaimer">
+    <p>This is an estimate from a machine learning model, not a diagnosis. If things feel hard, it's worth talking to someone you trust or a counsellor.</p>
+  </footer>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
