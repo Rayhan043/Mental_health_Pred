@@ -27,6 +27,14 @@ The goal is to build a regression model that estimates a student's mental health
 * Sleep Hours per Night
 * Stress Level
 
+  ## 🌐 Live Demo
+
+The application is deployed and available online:
+
+👉 **Live Application:** https://mental-health-pred-2.onrender.com/
+
+> **Note:** The application is hosted on Render's Free Web Service. If the service has been inactive for 15 minutes, Render automatically spins it down. The first request after inactivity may take around a minute while the service starts again.
+
 ## 🔄 ML Workflow
 
 ```text
